@@ -1,0 +1,141 @@
+
+==== NAME ====
+
+Posy::Plugin::CgiFile - Posy plugin to enable drop-in use of CGI scripts
+inside Posy.
+
+
+==== VERSION ====
+
+This describes version ``0.01'' of Posy::Plugin::CgiFile.
+
+
+==== DESCRIPTION ====
+
+This plugin adds another file type to Posy, the 'cgi' type, which enables
+normal CGI scripts to be called from within Posy, and their output then
+treated as if it was entry data, with the usual flavour templating done on
+top of that.
+
+This expects the file_extensions to have been set so that files with
+appropriate extensions ('cgi') will have been set with a file-type of 'cgi'.
+
+This replaces the 'parse_entry' method, and calls the parent method for
+anything other than CGI.
+
+This also replaces the 'get_title' method used by Posy::Plugin::EntryTitles,
+so if one is using that module, one needs to put this after that in the
+plugin list.
+
+
+==   Cautions   ==
+
+This plugin may not work if it is not run on a Unix-like system. This plugin
+may not work if the given CGI script has too complicated a setup.
+
+This plugin may not work if the CGI script gets confused between its own
+parameters and the parameters used by Posy and/or other Posy plugins which
+are also being used.
+
+This plugin will not work with scripts which require the use of the
+PATH_INFO or PATH_TRANSLATED environment variables.
+
+
+==   Activation   ==
+
+This plugin needs to be added to the plugins list and the file_extensions
+hash.
+
+This overrides the 'parse_entry' and 'get_title' methods; therefore care
+needs to be taken with other plugins if they override the same methods.
+
+Note that the URL used to call the dropped-in script is not going to be
+'script.cgi', but should use the usual Posy flavour extensions; thus, it
+would be called as 'script.html?myparam=myvalue' for example.
+
+
+==== INSTALLATION ====
+
+Installation needs will vary depending on the particular setup a person has.
+
+
+==   Administrator, Automatic   ==
+
+If you are the administrator of the system, then the dead simple method of
+installing the modules is to use the CPAN or CPANPLUS system.
+
+    cpanp -i Posy::Plugin::CgiFile
+
+This will install this plugin in the usual places where modules get
+installed when one is using CPAN(PLUS).
+
+
+==   Administrator, By Hand   ==
+
+If you are the administrator of the system, but don't wish to use the
+CPAN(PLUS) method, then this is for you. Take the *.tar.gz file and untar it
+in a suitable directory.
+
+To install this module, run the following commands:
+
+    perl Build.PL
+    ./Build
+    ./Build test
+    ./Build install
+
+Or, if you're on a platform (like DOS or Windows) that doesn't like the "./"
+notation, you can do this:
+
+   perl Build.PL
+   perl Build
+   perl Build test
+   perl Build install
+
+
+==   User With Shell Access   ==
+
+If you are a user on a system, and don't have root/administrator access, you
+need to install Posy somewhere other than the default place (since you don't
+have access to it). However, if you have shell access to the system, then
+you can install it in your home directory.
+
+Say your home directory is "/home/fred", and you want to install the modules
+into a subdirectory called "perl".
+
+Download the *.tar.gz file and untar it in a suitable directory.
+
+    perl Build.PL --install_base /home/fred/perl
+    ./Build
+    ./Build test
+    ./Build install
+
+This will install the files underneath /home/fred/perl.
+
+You will then need to make sure that you alter the PERL5LIB variable to find
+the modules.
+
+Therefore you will need to change the PERL5LIB variable to add
+/home/fred/perl/lib
+
+        PERL5LIB=/home/fred/perl/lib:${PERL5LIB}
+
+
+==== REQUIRES ====
+
+    Test::More
+
+
+==== AUTHOR ====
+
+    Kathryn Andersen (RUBYKAT)
+    perlkat AT katspace dot com
+    http://www.katspace.com
+
+
+==== COPYRIGHT AND LICENCE ====
+
+Copyright (c) 2005 by Kathryn Andersen
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
