@@ -7,11 +7,11 @@ Posy::Plugin::CgiFile - Posy plugin to enable drop-in use of CGI scripts inside 
 
 =head1 VERSION
 
-This describes version B<0.01> of Posy::Plugin::CgiFile.
+This describes version B<0.0101> of Posy::Plugin::CgiFile.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0101';
 
 =head1 SYNOPSIS
 
@@ -49,13 +49,20 @@ put this after that in the plugin list.
 This plugin may not work if it is not run on a Unix-like system.
 This plugin may not work if the given CGI script has too complicated
 a setup.
-
 This plugin may not work if the CGI script gets confused between its own
 parameters and the parameters used by Posy and/or other Posy plugins
 which are also being used.
 
 This plugin will not work with scripts which require the use of
 the PATH_INFO or PATH_TRANSLATED environment variables.
+
+This plugin will not work for scripts which use .htaccess + .htpasswd
+for password protection; no passwords will be checked, and the script
+will be wide open.  This limitation I<can> be circumvented, but only if
+you have access to your server configuration.  In that case, if, for
+example, you are using an Apache server, then the E<lt>LocationE<gt>
+directive can be used to contain the suitable authorization commands to
+password-protect the URL of the script you wish to protect.
 
 =head2 Activation
 

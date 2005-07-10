@@ -1,6 +1,6 @@
 ---
 name: Posy-Plugin-CgiFile
-version: 0.01
+version: 0.0101
 author:
   - Kathryn Andersen
 abstract: Posy plugin to enable drop-in use of CGI scripts inside Posy.
@@ -12,5 +12,5 @@ build_requires:
 provides:
   Posy::Plugin::CgiFile:
     file: lib/Posy/Plugin/CgiFile.pm
-    version: 0.01
+    version: 0.0101
 generated_by: Module::Build version 0.2611

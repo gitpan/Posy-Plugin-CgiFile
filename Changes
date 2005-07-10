@@ -1,6 +1,13 @@
 Revision history for Posy-Plugin-CgiFile
 ========================================
 
+0.0101 Sun 10 July 2005
+-----------------------
+
+  * (10 Jul 2005) explain more limitations
+  	This plugin won't work with .htaccess/.htpasswd files; they're
+  ignored.
+
 0.01 Sat 09 July 2005
 ---------------------
 
