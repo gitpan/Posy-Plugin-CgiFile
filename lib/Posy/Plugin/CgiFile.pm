@@ -7,11 +7,11 @@ Posy::Plugin::CgiFile - Posy plugin to enable drop-in use of CGI scripts inside 
 
 =head1 VERSION
 
-This describes version B<0.0101> of Posy::Plugin::CgiFile.
+This describes version B<0.02> of Posy::Plugin::CgiFile.
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -55,6 +55,10 @@ which are also being used.
 
 This plugin will not work with scripts which require the use of
 the PATH_INFO or PATH_TRANSLATED environment variables.
+
+This plugin will not work with scripts which reqire multi-part
+encoded POST data (such as uploaded files).  It will work with
+POST data if the script can accept it as GET data.
 
 This plugin will not work for scripts which use .htaccess + .htpasswd
 for password protection; no passwords will be checked, and the script
@@ -128,6 +132,19 @@ sub parse_entry {
 	    delete $ENV{PATH_TRANSLATED};
 	    $ENV{SCRIPT_NAME} = $self->{url} . '/' . $self->{path}->{cat_id} . '/' . $self->{path}->{basename} . "." . $self->{files}->{$id}->{ext};
 	    $ENV{SCRIPT_FILENAME} = File::Spec->catfile($fulldir,  $self->{path}->{basename} . "." . $self->{files}->{$id}->{ext});
+	    # and set the QUERY_STRING if the parameters were
+	    # given with a POST request that would have gobbled up
+	    # the parameters already
+	    if ($ENV{REQUEST_METHOD} eq 'POST')
+	    {
+		$ENV{REQUEST_METHOD} = 'GET';
+		my @pars = ();
+		for my $par ($self->{cgi}->param())
+		{
+		    push @pars, $par . '=' . $self->{cgi}->url_encode($self->{cgi}->param($par));
+		}
+		$ENV{QUERY_STRING} = join(';', @pars);
+	    }
 
 	    my $script = $self->{files}->{$id}->{fullname};
 	    exec($script)

@@ -1,6 +1,18 @@
 Revision history for Posy-Plugin-CgiFile
 ========================================
 
+0.02 Mon 19 September 2005
+--------------------------
+
+  * (18 Sep 2005) POST fix
+  	Now this should work with POST forms as well as GET forms.
+  But not multi-part-encoded stuff.  Just POST things which would work
+  equally well as GET things, since the way this now works is that if
+  a request is a POST request, it gets converted to a GET request,
+  since the POST parameters which were in STDIN have already been
+  gobbled up; so they get passed to the CGI script by setting the
+  environment instead.
+
 0.0101 Sun 10 July 2005
 -----------------------
 
